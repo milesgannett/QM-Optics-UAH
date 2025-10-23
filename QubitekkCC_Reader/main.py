@@ -57,12 +57,14 @@ def main():
 
     # Settings - CHANGE THESE
     
-    N = 10000 # N = number of measurements to take
+    N = 5 # N = number of measurements to take
     laser_power = 0 # mW as reported by Toptica software, enter "0" if dark count data
-    wait_time = 30 # seconds
-    
+    wait_time = 1 # seconds
+    com_port = "COM5"
+
+
     # Counting Settings:
-    dwell_time = 1 # seconds (0.1, 0.2, 0.3, ..., 1, 2)
+    dwell_time = .1 # seconds (0.1, 0.2, 0.3, ..., 1, 2)
     gate = False # bool (True/False)
     trigger_mode = 'start_stop' # 'continuous' or 'start_stop' 
     
@@ -81,7 +83,7 @@ def main():
     '''
 
     print('Initializing connection to Qubitekk CC...')
-    inst = ik.qubitekk.CC1.open_serial('COM5', baud=19200, timeout=5)
+    inst = ik.qubitekk.CC1.open_serial(com_port, baud=19200, timeout=5)
     firmware = inst.firmware # Request firmware version to ensure connection is valid
     print(f'Connected! CC Firmware Version: {firmware}')
 
@@ -142,9 +144,9 @@ def main():
     # MUST specify a valid path on your computer
     print("Generating metadata for this run...")
     time_str = datetime.now().strftime('%Y%m%d_%H%M%S')
-
+    
     metadata = np.array(
-        [f"Date and Time: {time_str}",
+        [f"Date and Time (YrMtDy_HrMnSc): {time_str}",
         f"Measurement Time (s): {totalTime}",
         f"Laser Power (mW): {laser_power}",
         f"Measurements Taken: {N}",
@@ -168,10 +170,10 @@ def main():
 
     if laser_power > 0:
         # Counts Path
-        path = r'C:\Users\QDM0001\Desktop\Coincidence Counter Data\QubitekkCC_Reader\QubitekkCC_Reader\DATA\COUNTS' 
+        path = r'QubitekkCC_Reader\DATA\COUNTS' 
     else: 
         # Dark Counts Path
-        path = r'C:\Users\QDM0001\Desktop\Coincidence Counter Data\QubitekkCC_Reader\QubitekkCC_Reader\DATA\DARK COUNTS' 
+        path = r'QubitekkCC_Reader\DATA\DARK COUNTS' 
 
     datapath = os.path.join(path, filename) 
     metapath = os.path.join(path, metafilename)
