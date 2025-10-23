@@ -7,13 +7,13 @@ import scipy.signal as sig
 def main():
 
 
-    data = np.loadtxt(r'C:\Users\QDM0001\Desktop\Coincidence Counter Data\QubitekkCC_Reader\QubitekkCC_Reader\DATA\COUNTS\data_20251022_173703.csv', delimiter=',', skiprows=1)[:,0]
+    data = np.loadtxt(r'QubitekkCC_Reader\DATA\DARK COUNTS\data_20251023_015306.csv', delimiter=',', skiprows=1)[:,0]
     N = len(data)
-    data_dk = np.loadtxt(r'C:\Users\QDM0001\Desktop\Coincidence Counter Data\QubitekkCC_Reader\QubitekkCC_Reader\DATA\DARK COUNTS\data_20251014_112335.csv', delimiter=',', skiprows=1)[:,0]
+    data_dk = np.loadtxt(r'QubitekkCC_Reader\DATA\DARK COUNTS\data_20251023_015306.csv', delimiter=',', skiprows=1)[:,0]
     #data_nodk = data - np.mean(data_dk/2)
 
 
-    meta = open(r'C:\Users\QDM0001\Desktop\Coincidence Counter Data\QubitekkCC_Reader\QubitekkCC_Reader\DATA\COUNTS\metadata_20251022_173703.txt')
+    meta = open(r'QubitekkCC_Reader\DATA\DARK COUNTS\metadata_20251023_015306.txt')
 
     time = float(meta.readlines()[1].strip("Measurement Time (s):"))
     rtime = np.arange(0, time, time/(N-1))
