@@ -1,0 +1,8 @@
+Date and Time: 20251013_155542
+Dwell Time (s): 0.2
+Gate Enabled: False
+Trigger Mode: start_stop
+Subtract Accidentals: False
+Coincidence Window (ns): 1
+Delay on CH1 (ns): 0
+Firmware Version: (2, 1, 0)
