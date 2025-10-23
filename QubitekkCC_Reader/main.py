@@ -18,7 +18,6 @@ import instruments as ik
 import time
 from datetime import datetime
 import os
-import winsound
 
 def main():
 
