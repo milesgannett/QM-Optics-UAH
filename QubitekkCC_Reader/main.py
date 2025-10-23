@@ -18,7 +18,7 @@ import instruments as ik
 import time
 from datetime import datetime
 import os
-
+import winsound
 
 def main():
 
@@ -57,12 +57,12 @@ def main():
 
     # Settings - CHANGE THESE
     
-    N = 5 # N = number of measurements to take
-    laser_power = 5 # mW as reported by Toptica software, enter "0" if dark count data
+    N = 10000 # N = number of measurements to take
+    laser_power = 10 # mW as reported by Toptica software, enter "0" if dark count data
     fine = "off" # FINE setting in Toptica software "off" or "on"
     fine_A = 80 # FINE A value (%)
     fine_B = 20 # FINE B value (%)
-    wait_time = 5 # seconds
+    wait_time = 30 # Time to wait after program start before data collection
 
     com_port = "COM5" # Set COM port (shouldn't change unless PC changes)
 
@@ -112,6 +112,7 @@ def main():
     print("Settings applied.")
     time.sleep(.3) # Ensure settings are finished applying.
 
+    print(f"Collection will take approximately {(dwell_time+1.4)*N/60} minutes.")
 
     for j in range(wait_time):
         print( f"Time before data acquisition: {wait_time - j} (sec)  ", end="\r")
@@ -195,7 +196,8 @@ def main():
     print("Saved!")
 
     time.sleep(1) 
-    print("Finished. Exiting...")
+
+    print("Finished! Exiting...")
 
     return
 
