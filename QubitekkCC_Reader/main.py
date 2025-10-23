@@ -58,13 +58,17 @@ def main():
     # Settings - CHANGE THESE
     
     N = 5 # N = number of measurements to take
-    laser_power = 0 # mW as reported by Toptica software, enter "0" if dark count data
-    wait_time = 1 # seconds
-    com_port = "COM5"
+    laser_power = 5 # mW as reported by Toptica software, enter "0" if dark count data
+    fine = "off" # FINE setting in Toptica software "off" or "on"
+    fine_A = 80 # FINE A value (%)
+    fine_B = 20 # FINE B value (%)
+    wait_time = 5 # seconds
+
+    com_port = "COM5" # Set COM port (shouldn't change unless PC changes)
 
 
     # Counting Settings:
-    dwell_time = .1 # seconds (0.1, 0.2, 0.3, ..., 1, 2)
+    dwell_time = 1 # seconds (0.1, 0.2, 0.3, ..., 1, 2)
     gate = False # bool (True/False)
     trigger_mode = 'start_stop' # 'continuous' or 'start_stop' 
     
@@ -113,6 +117,7 @@ def main():
         print( f"Time before data acquisition: {wait_time - j} (sec)  ", end="\r")
         time.sleep(1)
 
+    time_str = datetime.now().strftime('%Y%m%d_%H%M%S') # Acquisition start time
 
     # Data Acquisition -
 
@@ -143,7 +148,6 @@ def main():
     # Creates a metadata file including CC settings.
     # MUST specify a valid path on your computer
     print("Generating metadata for this run...")
-    time_str = datetime.now().strftime('%Y%m%d_%H%M%S')
     
     metadata = np.array(
         [f"Date and Time (YrMtDy_HrMnSc): {time_str}",
@@ -151,6 +155,9 @@ def main():
         f"Laser Power (mW): {laser_power}",
         f"Measurements Taken: {N}",
         f"Dwell Time (s): {dwell_time}",
+        f"FINE?: {fine}",
+        f"FINE A (%): {fine_A}",
+        f"FINE B (%): {fine_B}",
         f"Gate Enabled: {gate}",
         f"Trigger Mode: {trigger_mode}",
         f"Subtract Accidentals: {subtract}",

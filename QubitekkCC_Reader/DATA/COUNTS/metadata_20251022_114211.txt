@@ -1,9 +1,0 @@
-Date and Time: 20251022_114211
-Measurement Time: 19.308289766311646
-Dwell Time (s): 1
-Gate Enabled: False
-Trigger Mode: start_stop
-Subtract Accidentals: False
-Coincidence Window (ns): 1
-Delay on CH1 (ns): 0
-Firmware Version: (2, 1, 0)
