@@ -1,0 +1,14 @@
+Date and Time (YrMtDy_HrMnSc): 20251024_124309
+Measurement Time (s): 2294.6766772270203
+Laser Power (mW): 10
+Measurements Taken: 1000
+Dwell Time (s): 1
+FINE?: off
+FINE A (%): 80
+FINE B (%): 20
+Gate Enabled: False
+Trigger Mode: start_stop
+Subtract Accidentals: False
+Coincidence Window (ns): 1
+Delay on CH1 (ns): 0
+Firmware Version: (2, 1, 0)
