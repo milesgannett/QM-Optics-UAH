@@ -6,79 +6,90 @@ import scipy.signal as sig
 
 def main():
 
-    data1, time1, N1 = ccData('QubitekkCC_Reader\DATA\COUNTS\data_20251023_190227.csv',1)
-
-    print(N1)
-
-    plt.plot(time1, data1)
-    plt.show()
-
-
-
-    return
-
-    data = np.loadtxt(r'QubitekkCC_Reader\DATA\COUNTS\data_20251023_190227.csv', delimiter=',', skiprows=1)[:,0]
+    data, time, meta = ccData('QubitekkCC_Reader\DATA\COUNTS\data_20251024_124309.csv', 1)
+    dark, dtime, metad = ccData('QubitekkCC_Reader\DATA\DARK COUNTS\data_20251023_015306.csv', 1)
     N = len(data)
-    data_dk = np.loadtxt(r'QubitekkCC_Reader\DATA\DARK COUNTS\data_20251023_015306.csv', delimiter=',', skiprows=1)[:,0]
-    #data_nodk = data - np.mean(data_dk/2)
-
-    dataT = data[500:750]
-
-
-    meta = open(r'QubitekkCC_Reader\DATA\COUNTS\metadata_20251023_190227.txt')
-    time = float(meta.readlines()[1].strip("Measurement Time (s):"))
-    rtime = np.arange(0, time/(len(data)/(len(dataT))), time/(N-1))
-
-    print(data)
-
-    dfft = fft.fft(dataT)
-    freqs = fft.fftfreq(n = len(dataT), d = time/(N-1))
-
-    window = sig.get_window(('gaussian', 2000), N)
-    windowed = data * window
-
-    fig,axes = plt.subplots(3,1)
-    axes[0].plot(rtime, dataT)
-    axes[1].plot(freqs[np.where(freqs>0)], np.abs(dfft[np.where(freqs>0)])**2 / N )
-    axes[2].plot(freqs[np.where(freqs>0)], np.abs(windowed[np.where(freqs>0)])**2 / N )
-    axes[1].set_yscale('log')
-    axes[2].set_yscale('log')
-    #axes[1].set_xscale('log')
-    plt.show()
-
 
     
-    
-    bins = np.arange(0,2000,20)
-    fig,axes = plt.subplots(3,1, figsize=(10,8))
-    axes[0].hist(dataT, bins=bins, alpha=0.7, color='blue', edgecolor='black')
+    # covar, corr = coVar(data, dark[:N])
+    # Maybe... find the covariance/correlation of "data"
+    # with many different parts of "dark" and average them?
+    corr = 0
+    covar = 0
+    ratioN = int(len(dark)/len(data))
+    for i in np.arange(ratioN):
+        covar1, corr1 = coVar(data,dark[i*N:(i+1)*N])
+        covar += covar1
+        corr += corr1
 
-    axes[1].hist(stats.poisson.rvs(np.mean(dataT), size= N), bins=bins, alpha=0.7, color='red', edgecolor='black')
-    axes[2].hist(stats.norm.rvs(np.mean(dataT),np.sqrt(np.mean(data)), size= N), bins=bins, alpha=0.7, color='red', edgecolor='black')
-    axes[0].set_xlabel(f'Mean = {np.mean(dataT)}, Variance = {np.std(dataT)**2}')
-    plt.tight_layout()  
-    plt.show()
+    corr = corr/ratioN
+    covar = covar/ratioN
 
-    print(np.mean(data))
-    print(np.std(data))
+    mean = np.mean(data)
+    dmean = np.mean(dark)
+    var = np.var(data, ddof = 1)
+    dvar = np.var(dark, ddof = 1)
 
 
+    print(f"Mean of Data: {mean}, Mean of Dark Count Data: {dmean}")
+    print(f"Variance of Data: {var}, Variance of Dark Count Data: {dvar}")
+    print(f"Covariance: {covar}, Correlation Coefficient: {corr}")
+
+    # Sample variances add like: var(x+y) = varx + vary + 2 covarxy
+    # Want varx and to see if equal to mean - dmean ? 
+    print(f"Possible 'true' mean: {mean - dmean}, Possible 'true' variance: {var - dvar - 2*covar}")
 
     return
 
 def ccData(PATH:str, CH:int):
-    
+
+    '''
+    Picks the provided channel out of the data provided by PATH.
+    Looks for a metadata file in the same folder with the same timestamp.
+    Relevant quantities are taken from the metadata to determine an
+    appropriate time array for the data. Metadata is returned as a list. 
+    '''
+
     METAPATH = PATH.replace("data_", "metadata_").replace(".csv", ".txt")
 
-    data = np.loadtxt(PATH, delimiter=',', skiprows=1)[:, CH - 1]
+    data = np.loadtxt(PATH, delimiter = ',', skiprows = 1)[:, CH - 1]
     meta = open(METAPATH).readlines()
 
-    length = int(meta[3].strip("Measurements Taken:"))
-    total_t = float(meta[1].strip("Measurement Time (s):"))
+    for i, line in enumerate(meta):
+        if "Measurement Time" in line:
+            total_t = float(line.strip("Measurement Time (s):"))
+        if "Measurements Taken" in line:
+            N = int(line.strip("Measurements Taken:"))
+
+    time = np.linspace(0, total_t, N)
     
-    time = np.linspace(0, total_t, length)
-    
-    return data, time, length
+    return data, time, meta
+
+def coVar(data1:np.ndarray, data2:np.ndarray):
+
+    '''
+    Returns the covariance and correlation coefficient
+    of two data arrays of the same length.
+    '''
+
+    N = len(data1)
+
+    if  len(data2) != N:
+        return Exception("Cannot compute covariance of different length arrays.")
+
+    mean1 = np.mean(data1)
+    mean2 = np.mean(data2)
+    var1 = np.var(data1, ddof = 1)
+    var2 = np.var(data2, ddof = 1)
+
+    sum = 0
+    for i in np.arange(N):
+        sum += (data1[i] - mean1)*(data2[i] - mean2)
+
+    covar = sum/(N - 1)
+    corr = covar/np.sqrt(var1*var2)
+
+    return covar, corr
 
 if __name__ == "__main__":
     main()
