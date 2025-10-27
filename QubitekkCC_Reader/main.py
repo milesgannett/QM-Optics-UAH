@@ -56,7 +56,7 @@ def main():
 
     # Settings - CHANGE THESE
     
-    N = 10000 # N = number of measurements to take
+    N = 1000 # N = number of measurements to take
     laser_power = 10 # mW as reported by Toptica software, enter "0" if dark count data
     fine = "off" # FINE setting in Toptica software "off" or "on"
     fine_A = 80 # FINE A value (%)
