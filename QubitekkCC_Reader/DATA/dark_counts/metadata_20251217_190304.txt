@@ -1,7 +1,7 @@
-Date and Time (YrMtDy_HrMnSc): 20251027_101441
-Measurement Time (s): 2294.691947221756
-Laser Power (mW): 10
-Measurements Taken: 1000
+Date and Time (YrMtDy_HrMnSc): 20251217_190304
+Measurement Time (s): 22946.638535499573
+Laser Power (mW): 0
+Measurements Taken: 10000
 Dwell Time (s): 1
 FINE?: off
 FINE A (%): 80

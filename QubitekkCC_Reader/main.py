@@ -56,12 +56,12 @@ def main():
 
     # Settings - CHANGE THESE
     
-    N = 1000 # N = number of measurements to take
-    laser_power = 10 # mW as reported by Toptica software, enter "0" if dark count data
+    N = 10000 # N = number of measurements to take
+    laser_power = 0 # mW as reported by Toptica software, enter "0" if dark count data
     fine = "off" # FINE setting in Toptica software "off" or "on"
     fine_A = 80 # FINE A value (%)
     fine_B = 20 # FINE B value (%)
-    wait_time = 30 # Time to wait after program start before data collection
+    wait_time = 60 # Time to wait after program start before data collection
 
     com_port = "COM5" # Set COM port (shouldn't change unless PC changes)
 
@@ -177,10 +177,10 @@ def main():
 
     if laser_power > 0:
         # Counts Path
-        path = r'QubitekkCC_Reader\DATA\COUNTS' 
+        path = r'QubitekkCC_Reader\data\counts' 
     else: 
         # Dark Counts Path
-        path = r'QubitekkCC_Reader\DATA\DARK COUNTS' 
+        path = r'QubitekkCC_Reader\data\dark_counts' 
 
     datapath = os.path.join(path, filename) 
     metapath = os.path.join(path, metafilename)
