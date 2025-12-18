@@ -3,6 +3,7 @@ Measurement Time (s): 22946.638535499573
 Laser Power (mW): 0
 Measurements Taken: 10000
 Dwell Time (s): 1
+Excelitas SPCM Serial #: 38635
 FINE?: off
 FINE A (%): 80
 FINE B (%): 20

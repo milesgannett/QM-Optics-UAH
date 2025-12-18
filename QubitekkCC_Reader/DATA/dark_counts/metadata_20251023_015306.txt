@@ -3,6 +3,7 @@ Measurement Time (s): 22946.6353495121
 Laser Power (mW): 0
 Measurements Taken: 10000
 Dwell Time (s): 1
+Excelitas SPCM Serial #: 38635
 Gate Enabled: False
 Trigger Mode: start_stop
 Subtract Accidentals: False
