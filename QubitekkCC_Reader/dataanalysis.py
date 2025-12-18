@@ -6,39 +6,42 @@ import scipy.signal as sig
 
 def main():
 
-    data, time, meta = ccData('QubitekkCC_Reader\DATA\COUNTS\data_20251024_124309.csv', 1)
-    dark, dtime, metad = ccData('QubitekkCC_Reader\DATA\DARK COUNTS\data_20251023_015306.csv', 1)
-    N = len(data)
+    data, time, meta = ccData('QubitekkCC_Reader\DATA\dark_counts\data_20251217_190304.csv', 1)
+    smean = np.mean(data)
+    svar = np.var(data, ddof=1)
+    print(f"Sample Mean: {smean}")
+    print(f"Sample Variance: {svar}")
+
+    plots = False # Plot data, histograms, etc.
+
+    if plots:
+
+        ePMF, eCDF, drange = pmfcdf(data, discrete=True)
+        mPMF = stats.poisson.pmf(drange, mu=smean)
+
+        fig, axes = plt.subplots(nrows=1,ncols=2)
+
+        axes[0].scatter(time, data, color='black', s=1)
+        axes[0].plot(time, data, color='gray', lw=.5, alpha=.5)
+        axes[0].axhline(smean, 0, 1, color='red', label=fr'$\bar{{x}}$ = {np.round(smean,3)}', alpha=.5)
+        axes[0].set_title(fr'Time Series for Dark Counts from APD')
+        axes[0].set_xlabel(r'Time ($s$)')
+        axes[0].set_ylabel(r'Counts per Second ($s^{-1}$)')
+        axes[0].legend()
+        axes[1].bar(drange, ePMF, color='black', label='Empirical PMF')
+        axes[1].bar(drange, mPMF, color='blue', alpha=0.3, label='Model PMF')
+        axes[1].plot(drange, mPMF, color='blue', alpha=0.3)
+        axes[1].set_xlabel(r'Counts per Second ($s^{-1}$)')
+        axes[1].set_ylabel(r'Probability')
+        axes[1].set_title(fr'Dark Count Distribution, Poisson Model for Reference: $\mu = s^2$ = {np.round(svar, 1)}')
+        axes[1].legend()
+        plt.show()
+
+
+
 
     
-    # covar, corr = coVar(data, dark[:N])
-    # Maybe... find the covariance/correlation of "data"
-    # with many different parts of "dark" and average them?
-    corr = 0
-    covar = 0
-    ratioN = int(len(dark)/len(data))
-    for i in np.arange(ratioN):
-        covar1, corr1 = coVar(data,dark[i*N:(i+1)*N])
-        covar += covar1
-        corr += corr1
-
-    corr = corr/ratioN
-    covar = covar/ratioN
-
-    mean = np.mean(data)
-    dmean = np.mean(dark)
-    var = np.var(data, ddof = 1)
-    dvar = np.var(dark, ddof = 1)
-
-
-    print(f"Mean of Data: {mean}, Mean of Dark Count Data: {dmean}")
-    print(f"Variance of Data: {var}, Variance of Dark Count Data: {dvar}")
-    print(f"Covariance: {covar}, Correlation Coefficient: {corr}")
-
-    # Sample variances add like: var(x+y) = varx + vary + 2 covarxy
-    # Want varx and to see if equal to mean - dmean ? 
-    print(f"Possible 'true' mean: {mean - dmean}, Possible 'true' variance: {var - dvar - 2*covar}")
-
+ 
     return
 
 def ccData(PATH:str, CH:int):
@@ -65,31 +68,21 @@ def ccData(PATH:str, CH:int):
     
     return data, time, meta
 
-def coVar(data1:np.ndarray, data2:np.ndarray):
+def pmfcdf(data:np.ndarray, discrete:bool = False):
+    n = len(data)
+    dsort = np.sort(data)
 
-    '''
-    Returns the covariance and correlation coefficient
-    of two data arrays of the same length.
-    '''
+    if discrete:
+        pmf, drange = np.histogram(data, bins = np.arange(min(data), max(data)+2))
+        pmf = pmf/n
+        drange = drange[:len(drange)-1]
+        cdf = np.cumsum(pmf)
 
-    N = len(data1)
+        return pmf, cdf, drange
+    else: 
+        cdf = np.arange(1, n+1, 1)/n
+        return cdf, dsort
 
-    if  len(data2) != N:
-        return Exception("Cannot compute covariance of different length arrays.")
-
-    mean1 = np.mean(data1)
-    mean2 = np.mean(data2)
-    var1 = np.var(data1, ddof = 1)
-    var2 = np.var(data2, ddof = 1)
-
-    sum = 0
-    for i in np.arange(N):
-        sum += (data1[i] - mean1)*(data2[i] - mean2)
-
-    covar = sum/(N - 1)
-    corr = covar/np.sqrt(var1*var2)
-
-    return covar, corr
 
 if __name__ == "__main__":
     main()
