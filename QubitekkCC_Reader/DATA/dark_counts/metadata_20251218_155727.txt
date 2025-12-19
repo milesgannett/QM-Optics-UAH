@@ -1,0 +1,15 @@
+Date and Time (YrMtDy_HrMnSc): 20251218_155727
+Measurement Time (s): 45893.32399916649
+Laser Power (mW): 0
+Measurements Taken: 20000
+Dwell Time (s): 1
+Excelitas SPCM Serial #: 56690
+FINE?: off
+FINE A (%): 80
+FINE B (%): 20
+Gate Enabled: False
+Trigger Mode: start_stop
+Subtract Accidentals: False
+Coincidence Window (ns): 1
+Delay on CH1 (ns): 0
+Firmware Version: (2, 1, 0)

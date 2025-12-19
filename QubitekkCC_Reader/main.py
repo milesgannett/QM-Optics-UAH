@@ -56,13 +56,13 @@ def main():
 
     # Settings - CHANGE THESE
     
-    N = 10 # N = number of measurements to take
+    N = 20000 # N = number of measurements to take
     laser_power = 0 # mW as reported by Toptica software, enter "0" if dark count data
     serial = 56690 # Excelitas SPCM-AQRH serial number
     fine = "off" # FINE setting in Toptica software "off" or "on"
     fine_A = 80 # FINE A value (%)
     fine_B = 20 # FINE B value (%)
-    wait_time = 5 # Time to wait after program start before data collection
+    wait_time = 60 # Time to wait after program start before data collection
 
     com_port = "COM5" # Set COM port (shouldn't change unless PC changes)
 
