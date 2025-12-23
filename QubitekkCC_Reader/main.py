@@ -58,12 +58,15 @@ def main():
     
     N = 20000 # N = number of measurements to take
     laser_power = 0 # mW as reported by Toptica software, enter "0" if dark count data
-    serial = 56690 # Excelitas SPCM-AQRH serial number
+    CH1serial = 38635 # CH1 Excelitas SPCM-AQRH serial number 
+    CH2serial = 38634 # CH2 Excelitas SPCM-AQRH serial number
     fine = "off" # FINE setting in Toptica software "off" or "on"
     fine_A = 80 # FINE A value (%)
     fine_B = 20 # FINE B value (%)
     wait_time = 60 # Time to wait after program start before data collection
 
+    # Add note to metadata to describe the set-up
+    desc = "38635 using the new supply, 38634 using the old supply." 
     com_port = "COM5" # Set COM port (shouldn't change unless PC changes)
 
 
@@ -156,7 +159,8 @@ def main():
         f"Laser Power (mW): {laser_power}",
         f"Measurements Taken: {N}",
         f"Dwell Time (s): {dwell_time}",
-        f"Excelitas SPCM Serial #: {serial}",
+        f"CH1 Excelitas SPCM Serial #: {CH1serial}",
+        f"CH2 Excelitas SPCM Serial #: {CH2serial}",
         f"FINE?: {fine}",
         f"FINE A (%): {fine_A}",
         f"FINE B (%): {fine_B}",
@@ -165,7 +169,8 @@ def main():
         f"Subtract Accidentals: {subtract}",
         f"Coincidence Window (ns): {window}",
         f"Delay on CH1 (ns): {delay}",
-        f"Firmware Version: {firmware}"])
+        f"Firmware Version: {firmware}",
+        f"Description: {desc}"])
         
 
     print("Success.")

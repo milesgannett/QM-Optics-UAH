@@ -1,0 +1,17 @@
+Date and Time (YrMtDy_HrMnSc): 20251222_165131
+Measurement Time (s): 45893.31802916527
+Laser Power (mW): 0
+Measurements Taken: 20000
+Dwell Time (s): 1
+CH1 Excelitas SPCM Serial #: 38635
+CH2 Excelitas SPCM Serial #: 38634
+FINE?: off
+FINE A (%): 80
+FINE B (%): 20
+Gate Enabled: False
+Trigger Mode: start_stop
+Subtract Accidentals: False
+Coincidence Window (ns): 1
+Delay on CH1 (ns): 0
+Firmware Version: (2, 1, 0)
+Description: 38635 using the new supply, 38634 using the old supply.

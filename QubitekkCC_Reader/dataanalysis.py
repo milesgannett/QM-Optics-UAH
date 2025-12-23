@@ -6,13 +6,13 @@ import scipy.signal as sig
 
 def main():
 
-    data, time, meta = ccData('QubitekkCC_Reader\DATA\dark_counts\data_20251217_190304.csv', 1)
+    data, time, meta = ccData('QubitekkCC_Reader\data\dark_counts\data_20251222_165131.csv', 2)
     smean = np.mean(data)
     svar = np.var(data, ddof=1)
     print(f"Sample Mean: {smean}")
     print(f"Sample Variance: {svar}")
 
-    plots = False # Plot data, histograms, etc.
+    plots = True # Plot data, histograms, etc.
 
     if plots:
 
