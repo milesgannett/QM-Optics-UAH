@@ -57,18 +57,25 @@ def main():
     # Settings - CHANGE THESE
     
     N = 20000 # N = number of measurements to take
+    CH1dserial = 38635 # CH1 Detector serial number 
+    CH2dserial = 38634 # CH2 Detector serial number
+    CH1pserial = 0 # CH1 Power Supply serial number
+    CH2pserial = 0 # CH2 Power Supply serial number
+    # Add note to metadata to describe the set-up
+    desc = "38635 using the new supply, 38634 using the old supply." 
+
+
+    wait_time = 60 # Time to wait after program start before data collection
+
+
+
     laser_power = 0 # mW as reported by Toptica software, enter "0" if dark count data
-    CH1serial = 38635 # CH1 Excelitas SPCM-AQRH serial number 
-    CH2serial = 38634 # CH2 Excelitas SPCM-AQRH serial number
     fine = "off" # FINE setting in Toptica software "off" or "on"
     fine_A = 80 # FINE A value (%)
     fine_B = 20 # FINE B value (%)
-    wait_time = 60 # Time to wait after program start before data collection
 
-    # Add note to metadata to describe the set-up
-    desc = "38635 using the new supply, 38634 using the old supply." 
+
     com_port = "COM5" # Set COM port (shouldn't change unless PC changes)
-
 
     # Counting Settings:
     dwell_time = 1 # seconds (0.1, 0.2, 0.3, ..., 1, 2)
@@ -159,8 +166,10 @@ def main():
         f"Laser Power (mW): {laser_power}",
         f"Measurements Taken: {N}",
         f"Dwell Time (s): {dwell_time}",
-        f"CH1 Excelitas SPCM Serial #: {CH1serial}",
-        f"CH2 Excelitas SPCM Serial #: {CH2serial}",
+        f"CH1 Detector Serial #: {CH1dserial}",
+        f"CH2 Detector Serial #: {CH2dserial}",
+        f"CH1 Power Supply Serial #: {CH1pserial}",
+        f"CH2 Power Supply Serial #: {CH2pserial}",        
         f"FINE?: {fine}",
         f"FINE A (%): {fine_A}",
         f"FINE B (%): {fine_B}",
