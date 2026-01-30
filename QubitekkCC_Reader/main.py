@@ -61,6 +61,8 @@ def main():
     CH2dserial = 38634 # CH2 Detector serial number
     CH1pserial = 0 # CH1 Power Supply serial number
     CH2pserial = 0 # CH2 Power Supply serial number
+    # PLAN: USE Python Dictionaries TO DOCUMENT INFO ABOUT DETECTORS/POWERSUPPLIES?
+
     # Add note to metadata to describe the set-up
     desc = "38635 using the new supply, 38634 using the old supply." 
 
