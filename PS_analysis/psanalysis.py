@@ -36,11 +36,20 @@ def main():
     avgPS = avgPS[mask]
     avgBK = avgBK[mask]
 
-    plt.plot(freqs[1:], np.abs(avgBK[1:]), color='red')
-    plt.plot(freqs[1:], np.abs(avgPS[1:]), color='blue')
-    plt.plot(freqs[1:], np.abs(avgPS[1:] - avgBK[1:]), color='green')
-    plt.show()
+    units = np.sqrt(2*(time[1]-time[0])/len(data))
+    print(units)
 
+    fig, axes = plt.subplots(3)
+    fig.supxlabel("Hz")
+    fig.supylabel(r"Amplitude ($\frac{V}{\sqrt{Hz}}$)")
+    axes[0].plot(freqs[1:], np.abs(avgBK[1:])*units, color='red', label = 'BK')
+    #axes[0].set_yscale('log')
+    axes[1].plot(freqs[1:], np.abs(avgPS[1:])*units, color='blue', label = 'PS')
+    #axes[1].set_yscale('log')
+    axes[2].plot(freqs[1:], np.abs(avgPS[1:] - avgBK[1:])*units, color='green', label = 'PS - BK')
+    #axes[2].set_yscale('log')
+    fig.legend()
+    plt.show()
 
     pass
 
