@@ -18,8 +18,8 @@ from datetime import datetime
 import os
 
 def main():
-
-    
+    HV1 = ik.Instrument.open_serial(port="COM1", baud=115200)
+    print(HV1.query("id?"))
 
     return
 
