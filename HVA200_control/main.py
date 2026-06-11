@@ -17,10 +17,29 @@ from datetime import datetime
 import os
 
 def main():
-    HV1 = serial.Serial(port="COM4", baudrate=115200)
-    print(HV1.name)
+    HV1 = serial.Serial(port="COM3", baudrate=115200,
+    bytesize=8, parity='N', stopbits=1, timeout=1)
+
+    HV1.write(b"\r")
+    print(HV1.read_until(b'>').decode().strip())
+    
     HV1.write(b"id?\r")
-    print(HV1.readline())
+    print(HV1.read_until(b'>').decode().strip())
+
+    HV1.write(b"enable=1\r")
+    print(HV1.read_until(b'>').decode().strip())
+
+    HV1.write(b"enable?\r")
+    print(HV1.read_until(b'>').decode().strip())
+
+    HV1.write(b"enable=0\r")
+    print(HV1.read_until(b'>').decode().strip())
+
+    HV1.write(b"enable?\r")
+    print(HV1.read_until(b'>').decode().strip())
+
+
+
     HV1.close()
 
     return
